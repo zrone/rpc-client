@@ -196,7 +196,7 @@ abstract class AbstractServiceClient
             if (! $governance) {
                 throw new InvalidArgumentException(sprintf('Invalid protocol of registry %s', $registryProtocol));
             }
-            $nodes = $this->getNodes($governance, $registryAddress);
+            $nodes = $this->getNodes($governance, $registryAddress, $consumer);
             $refreshCallback = function () use ($governance, $registryAddress) {
                 return $this->getNodes($governance, $registryAddress);
             };
@@ -221,10 +221,12 @@ abstract class AbstractServiceClient
         throw new InvalidArgumentException('Config of registry or nodes missing.');
     }
 
-    protected function getNodes(DriverInterface $governance, string $address): array
+    protected function getNodes(DriverInterface $governance, string $address, array $consumer): array
     {
         $nodeArray = $governance->getNodes($address, $this->serviceName, [
             'protocol' => $this->protocol,
+            'group_name' => $consumer['group_name'] ?? null,
+            'namespace_id' => $consumer['namespace_id'] ?? null,
         ]);
         $nodes = [];
         foreach ($nodeArray as $node) {
