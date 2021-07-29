@@ -1,5 +1,5 @@
 {
-    "name": "hyperf/rpc-client",
+    "name": "zrone/rpc-client",
     "description": "An abstract rpc server component for Hyperf.",
     "license": "MIT",
     "keywords": [
